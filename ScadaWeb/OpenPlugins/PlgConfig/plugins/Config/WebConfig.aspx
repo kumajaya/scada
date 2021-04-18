@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Web Application Configuration - Rapid SCADA" Language="C#" MasterPageFile="~/MasterMain.Master" AutoEventWireup="true" CodeBehind="WebConfig.aspx.cs" Inherits="Scada.Web.Plugins.Config.WFrmWebConfig" %>
+﻿<%@ Page Title="Web Application Configuration" Language="C#" MasterPageFile="~/MasterMain.Master" AutoEventWireup="true" CodeBehind="WebConfig.aspx.cs" Inherits="Scada.Web.Plugins.Config.WFrmWebConfig" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMainHead" runat="server">
     <link href="css/webconfig.min.css" rel="stylesheet" type="text/css" />
 </asp:Content>
@@ -163,6 +163,12 @@
             <asp:Label ID="lblEventAckScript" runat="server" CssClass="col-sm-4 control-label" Text="Acknowledgement plugin" AssociatedControlID="ddlEventAckScript"></asp:Label>
             <div class="col-sm-8">
                 <asp:DropDownList ID="ddlEventAckScript" runat="server" CssClass="form-control"></asp:DropDownList>
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label ID="lblUserProfile" runat="server" CssClass="col-sm-4 control-label" Text="User profile plugin" AssociatedControlID="ddlUserProfile"></asp:Label>
+            <div class="col-sm-8">
+                <asp:DropDownList ID="ddlUserProfile" runat="server" CssClass="form-control"></asp:DropDownList>
             </div>
         </div>
         <div class="form-group">

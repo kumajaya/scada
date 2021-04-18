@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PlgConfigDictionaries>
   <Dictionary key="Scada.Web.Plugins.Config.WFrmPlugins">
-    <Phrase key="this">Installed Plugins - Rapid SCADA</Phrase>
+    <Phrase key="this">Installed Plugins</Phrase>
     <Phrase key="lblTitle">Installed Plugins</Phrase>
     <Phrase key="NameCol">Name</Phrase>
     <Phrase key="DescrCol">Description</Phrase>
@@ -16,7 +16,7 @@
     <Phrase key="PluginVersion">Version </Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.Config.WFrmWebConfig">
-    <Phrase key="this">Web Application Configuration - Rapid SCADA</Phrase>
+    <Phrase key="this">Web Application Configuration</Phrase>
     <Phrase key="lblTitle">Web Application Configuration</Phrase>
     <Phrase key="lblConnection">Connection to Server</Phrase>
     <Phrase key="lblServerHost">Server</Phrase>
@@ -46,6 +46,7 @@
     <Phrase key="lblChartScript">Chart plugin</Phrase>
     <Phrase key="lblCmdScript">Command plugin</Phrase>
     <Phrase key="lblEventAckScript">Acknowledgement plugin</Phrase>
+    <Phrase key="lblUserProfile">User profile plugin</Phrase>
     <Phrase key="btnSave">Save Configuration</Phrase>
     <Phrase key="UnknownPlugin">Unknown plugin</Phrase>
     <Phrase key="IncorrectFields">The following fields are incorrect:</Phrase>

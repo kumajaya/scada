@@ -24,6 +24,7 @@
     <Script name="ChartScript" path="~/plugins/Chart/js/chartdialog.js" />
     <Script name="CmdScript" path="~/plugins/Table/js/cmddialog.js" />
     <Script name="EventAckScript" path="~/plugins/Table/js/eventackdialog.js" />
+    <Script name="UserProfile" path="" />
   </ScriptPaths>
   <Plugins>
     <Plugin fileName="PlgChart.dll" />
@@ -35,4 +36,12 @@
     <Plugin fileName="PlgTable.dll" />
     <Plugin fileName="PlgWebPage.dll" />
   </Plugins>
+  <CustomOptions>
+    <OptionGroup name="Scheme">
+      <!-- ScaleType: Numeric, FitScreen, FitWidth -->
+      <Option name="ScaleType" value="Numeric" />
+      <Option name="ScaleValue" value="100" />
+      <Option name="RememberScale" value="true" />
+    </OptionGroup>
+  </CustomOptions>
 </WebSettings>

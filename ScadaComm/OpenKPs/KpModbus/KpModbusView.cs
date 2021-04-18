@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2019 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2012
- * Modified : 2019
+ * Modified : 2021
  */
 
 using Scada.Comm.Devices.Modbus.Protocol;
@@ -41,7 +41,7 @@ namespace Scada.Comm.Devices
         /// <summary>
         /// The driver version.
         /// </summary>
-        internal const string KpVersion = "5.1.2.0";
+        internal const string KpVersion = "5.1.3.0";
 
         /// <summary>
         /// The UI customization object.
@@ -105,7 +105,7 @@ namespace Scada.Comm.Devices
         }
 
         /// <summary>
-        /// Gets the channel prototypes.
+        /// Gets the default channel prototypes.
         /// </summary>
         public override KPCnlPrototypes DefaultCnls
         {

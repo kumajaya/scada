@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2020 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2020
+ * Modified : 2021
  */
 
 using Scada.Client;
@@ -41,11 +41,11 @@ namespace Scada.Server.Modules.DBExport
         private AppDirs appDirs;       // директории приложения
         private ServerComm serverComm; // объект для обмена данными со SCADA-Сервером
 
-        private Config config;         // конфигурация модуля
-        private Config configCopy;     // копия конфигурации модуля для реализации отмены изменений
+        private ModConfig config;         // конфигурация модуля
+        private ModConfig configCopy;     // копия конфигурации модуля для реализации отмены изменений
         private bool modified;         // признак изменения конфигурации
         private bool changing;         // происходит изменение значений элементов управления
-        private Config.ExportDestination selExpDest; // выбранное назначение экспорта
+        private ModConfig.ExportDestination selExpDest; // выбранное назначение экспорта
         private TreeNode selExpDestNode;             // узел дерева выбранного назначения экспорта
 
 
@@ -88,9 +88,11 @@ namespace Scada.Server.Modules.DBExport
         /// </summary>
         public static void ShowDialog(AppDirs appDirs, ServerComm serverComm)
         {
-            FrmDBExportConfig frmDBExportConfig = new FrmDBExportConfig();
-            frmDBExportConfig.appDirs = appDirs;
-            frmDBExportConfig.serverComm = serverComm;
+            FrmDBExportConfig frmDBExportConfig = new FrmDBExportConfig
+            {
+                appDirs = appDirs,
+                serverComm = serverComm
+            };
             frmDBExportConfig.ShowDialog();
         }
 
@@ -98,12 +100,11 @@ namespace Scada.Server.Modules.DBExport
         /// <summary>
         /// Создать узел дерева, соответствующий назначению экспорта
         /// </summary>
-        private TreeNode NewExpDestNode(Config.ExportDestination expDest)
+        private TreeNode NewExpDestNode(ModConfig.ExportDestination expDest)
         {
-            TreeNode node = new TreeNode(expDest.DataSource.Name);
-            node.Tag = expDest;
-
+            TreeNode node = new TreeNode(expDest.DataSource.Name) { Tag = expDest };
             string imageKey;
+
             switch (expDest.DataSource.DBType)
             {
                 case DBType.MSSQL:
@@ -143,7 +144,7 @@ namespace Scada.Server.Modules.DBExport
             treeView.BeginUpdate();
             treeView.Nodes.Clear();
 
-            foreach (Config.ExportDestination expDest in config.ExportDestinations)
+            foreach (ModConfig.ExportDestination expDest in config.ExportDestinations)
                 treeView.Nodes.Add(NewExpDestNode(expDest));
 
             treeView.ExpandAll();
@@ -188,7 +189,7 @@ namespace Scada.Server.Modules.DBExport
                 }
 
                 // вывод параметров экспорта
-                Config.ExportParams expParams = selExpDest.ExportParams;
+                ModConfig.ExportParams expParams = selExpDest.ExportParams;
                 ctrlExportCurDataQuery.Export = expParams.ExportCurData;
                 ctrlExportCurDataQuery.Query = expParams.ExportCurDataQuery;
                 ctrlExportArcDataQuery.Export = expParams.ExportArcData;
@@ -220,12 +221,13 @@ namespace Scada.Server.Modules.DBExport
         {
             if (selExpDest != null)
             {
-                string bldConnStr = selExpDest.DataSource.BuildConnectionString(true);
+                string bldConnStr = selExpDest.DataSource.BuildConnectionString();
+
                 if (!string.IsNullOrEmpty(bldConnStr))
                 {
                     selExpDest.DataSource.ConnectionString = bldConnStr;
                     changing = true;
-                    txtConnectionString.Text = bldConnStr;
+                    txtConnectionString.Text = selExpDest.DataSource.BuildConnectionString(true);
                     changing = false;
                     SetConnControlsBackColor(KnownColor.Window, KnownColor.Control);
                 }
@@ -260,8 +262,7 @@ namespace Scada.Server.Modules.DBExport
         {
             if (Modified)
             {
-                string errMsg;
-                if (config.Save(out errMsg))
+                if (config.Save(out string errMsg))
                 {
                     Modified = false;
                     return true;
@@ -295,7 +296,7 @@ namespace Scada.Server.Modules.DBExport
             lblInstruction.Top = treeView.Top;
 
             // загрузка конфигурации
-            config = new Config(appDirs.ConfigDir);
+            config = new ModConfig(appDirs.ConfigDir);
             if (File.Exists(config.FileName) && !config.Load(out errMsg))
                 ScadaUiUtils.ShowError(errMsg);
 
@@ -336,7 +337,7 @@ namespace Scada.Server.Modules.DBExport
         {
             // определение и отображение свойств выбранного объекта
             TreeNode selNode = e.Node;
-            selExpDest = selNode.Tag as Config.ExportDestination;
+            selExpDest = selNode.Tag as ModConfig.ExportDestination;
             selExpDestNode = selExpDest == null ? null : selNode;
             ShowSelectedExportParams();
         }
@@ -359,7 +360,7 @@ namespace Scada.Server.Modules.DBExport
 
             if (dataSource != null)
             {
-                Config.ExportDestination expDest = new Config.ExportDestination(dataSource, new Config.ExportParams());
+                ModConfig.ExportDestination expDest = new ModConfig.ExportDestination(dataSource, new ModConfig.ExportParams());
                 TreeNode treeNode = NewExpDestNode(expDest);
 
                 int ind = config.ExportDestinations.BinarySearch(expDest);

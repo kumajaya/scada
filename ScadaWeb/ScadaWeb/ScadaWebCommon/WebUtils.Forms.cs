@@ -1,29 +1,5 @@
-﻿/*
- * Copyright 2018 Mikhail Shiryaev
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *     http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * 
- * Product  : Rapid SCADA
- * Module   : ScadaWebCommon
- * Summary  : The class contains utility methods for web applications. Web form utilities
- * 
- * Author   : Mikhail Shiryaev
- * Created  : 2016
- * Modified : 2018
- */
-
-using System;
+﻿using System;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -81,6 +57,49 @@ namespace Scada.Web
                 pnlMessage.Visible = true;
                 lblMessage.Visible = true;
             }
+        }
+
+        /// <summary>
+        /// Sets the selected value of the drop down list if possible.
+        /// </summary>
+        public static void SetSelectedValue(this DropDownList dropDownList, object value)
+        {
+            try 
+            { 
+                dropDownList.SelectedValue = value == null ? "" : value.ToString();
+            } 
+            catch
+            { 
+            }
+        }
+
+        /// <summary>
+        /// Updates the modal dialog height.
+        /// </summary>
+        public static void UpdateModalHeight(this Page page)
+        {
+            page.ClientScript.RegisterStartupScript(page.GetType(), "UpdateModalHeight", "updateModalHeight();", true);
+        }
+
+        /// <summary>
+        /// Sets the modal dialog title.
+        /// </summary>
+        public static void SetModalTitle(this Page page, string title)
+        {
+            page.ClientScript.RegisterStartupScript(page.GetType(), "SetModalTitle",
+                $"setModalTitle('{ HttpUtility.JavaScriptStringEncode(title) }');", true);
+        }
+
+        /// <summary>
+        /// Closes the modal dialog.
+        /// </summary>
+        public static void CloseModal(this Page page, bool dialogResult = true, string extraParams = null)
+        {
+            string resultStr = dialogResult ? "true" : "false";
+            string script = string.IsNullOrEmpty(extraParams) ?
+                string.Format("closeModal({0});", resultStr) :
+                string.Format("closeModal({0}, '{1}');", resultStr, extraParams);
+            page.ClientScript.RegisterStartupScript(page.GetType(), "CloseModal", script, true);
         }
     }
 }

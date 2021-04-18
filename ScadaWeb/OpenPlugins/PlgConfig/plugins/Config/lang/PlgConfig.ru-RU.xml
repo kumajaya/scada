@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PlgConfigDictionaries>
   <Dictionary key="Scada.Web.Plugins.Config.WFrmPlugins">
-    <Phrase key="this">Установленные плагины - Rapid SCADA</Phrase>
+    <Phrase key="this">Установленные плагины</Phrase>
     <Phrase key="lblTitle">Установленные плагины</Phrase>
     <Phrase key="NameCol">Наименование</Phrase>
     <Phrase key="DescrCol">Описание</Phrase>
@@ -16,7 +16,7 @@
     <Phrase key="PluginVersion">Версия </Phrase>
   </Dictionary>
   <Dictionary key="Scada.Web.Plugins.Config.WFrmWebConfig">
-    <Phrase key="this">Конфигурация веб-приложения - Rapid SCADA</Phrase>
+    <Phrase key="this">Конфигурация веб-приложения</Phrase>
     <Phrase key="lblTitle">Конфигурация веб-приложения</Phrase>
     <Phrase key="lblConnection">Соединение с Сервером</Phrase>
     <Phrase key="lblServerHost">Сервер</Phrase>
@@ -46,6 +46,7 @@
     <Phrase key="lblChartScript">Плагин графиков</Phrase>
     <Phrase key="lblCmdScript">Плагин команд</Phrase>
     <Phrase key="lblEventAckScript">Плагин квитирования</Phrase>
+    <Phrase key="lblUserProfile">Плагин профиля пользователя</Phrase>
     <Phrase key="btnSave">Сохранить конфигурацию</Phrase>
     <Phrase key="UnknownPlugin">Неизвестный плагин</Phrase>
     <Phrase key="IncorrectFields">Следующие поля некорректны:</Phrase>

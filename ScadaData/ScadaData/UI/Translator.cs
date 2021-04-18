@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2018 Mikhail Shiryaev
+ * Copyright 2021 Mikhail Shiryaev
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
  * 
  * Author   : Mikhail Shiryaev
  * Created  : 2015
- * Modified : 2018
+ * Modified : 2021
  */
 
 using System;
@@ -33,8 +33,8 @@ using WinForms = System.Windows.Forms;
 namespace Scada.UI
 {
     /// <summary>
-    /// User interface translation
-    /// <para>Перевод пользовательского интерфейса</para>
+    /// User interface translation.
+    /// <para>Перевод пользовательского интерфейса.</para>
     /// </summary>
     public static class Translator
     {
@@ -100,6 +100,12 @@ namespace Scada.UI
                 }
             }
         }
+
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to append the product name to a form title.
+        /// </summary>
+        public static bool AppendProductName { get; set; } = false;
 
 
         /// <summary>
@@ -192,10 +198,11 @@ namespace Scada.UI
 
                         if (controlInfo.Items != null)
                         {
+                            int itemCnt = controlInfo.Items.Count;
+
                             if (elem is WinForms.ComboBox comboBox)
                             {
-                                for (int i = 0, cnt = Math.Min(comboBox.Items.Count, controlInfo.Items.Count); 
-                                    i < cnt; i++)
+                                for (int i = 0, cnt = Math.Min(comboBox.Items.Count, itemCnt); i < cnt; i++)
                                 {
                                     string itemText = controlInfo.Items[i];
                                     if (itemText != null)
@@ -204,8 +211,7 @@ namespace Scada.UI
                             }
                             else if (elem is WinForms.ListBox listBox)
                             {
-                                for (int i = 0, cnt = Math.Min(listBox.Items.Count, controlInfo.Items.Count); 
-                                    i < cnt; i++)
+                                for (int i = 0, cnt = Math.Min(listBox.Items.Count, itemCnt); i < cnt; i++)
                                 {
                                     string itemText = controlInfo.Items[i];
                                     if (itemText != null)
@@ -214,8 +220,7 @@ namespace Scada.UI
                             }
                             else if (elem is WinForms.ListView listView)
                             {
-                                for (int i = 0, cnt = Math.Min(listView.Items.Count, controlInfo.Items.Count); 
-                                    i < cnt; i++)
+                                for (int i = 0, cnt = Math.Min(listView.Items.Count, itemCnt); i < cnt; i++)
                                 {
                                     string itemText = controlInfo.Items[i];
                                     if (itemText != null)
@@ -327,7 +332,7 @@ namespace Scada.UI
                     {
                         if (controlInfo.Text != null)
                             hyperLink.Text = controlInfo.Text;
-                        if (controlInfo.Props != null && 
+                        if (controlInfo.Props != null &&
                             controlInfo.Props.TryGetValue("NavigateUrl", out string navigateUrl))
                             hyperLink.NavigateUrl = navigateUrl;
                     }
@@ -360,10 +365,39 @@ namespace Scada.UI
                         if (controlInfo.Text != null)
                             hiddenField.Value = controlInfo.Text;
                     }
+                    else if (control is GridView gridView)
+                    {
+                        if (controlInfo.Items != null)
+                        {
+                            for (int i = 0, cnt = Math.Min(gridView.Columns.Count, controlInfo.Items.Count); 
+                                i < cnt; i++)
+                            {
+                                string itemText = controlInfo.Items[i];
+                                if (itemText != null)
+                                    gridView.Columns[i].HeaderText = itemText;
+                            }
+                        }
+                    }
                 }
 
                 // запуск обработки дочерних элементов
                 TranslateWebControls(control.Controls, controlInfoDict);
+            }
+        }
+
+        /// <summary>
+        /// Gets the form title, optionally adding the product name.
+        /// </summary>
+        private static string GetFormTitle(string s)
+        {
+            if (AppendProductName)
+            {
+                string suffix = " - " + CommonPhrases.ProductName;
+                return s.EndsWith(suffix) ? s : s + suffix;
+            }
+            else
+            {
+                return s;
             }
         }
 
@@ -380,9 +414,8 @@ namespace Scada.UI
                 Dictionary<string, ControlInfo> controlInfoDict = GetControlInfoDict(dict);
 
                 // перевод заголовка формы
-                ControlInfo controlInfo;
-                if (controlInfoDict.TryGetValue("this", out controlInfo) && controlInfo.Text != null)
-                    form.Text = controlInfo.Text;
+                if (controlInfoDict.TryGetValue("this", out ControlInfo controlInfo) && controlInfo.Text != null)
+                    form.Text = GetFormTitle(controlInfo.Text);
 
                 // перевод элементов управления
                 TranslateWinControls(form.Controls, toolTip, controlInfoDict);
@@ -405,9 +438,8 @@ namespace Scada.UI
                 Dictionary<string, ControlInfo> controlInfoDict = GetControlInfoDict(dict);
 
                 // перевод заголовка страницы
-                ControlInfo controlInfo;
-                if (controlInfoDict.TryGetValue("this", out controlInfo) && controlInfo.Text != null)
-                    page.Title = controlInfo.Text;
+                if (controlInfoDict.TryGetValue("this", out ControlInfo controlInfo) && controlInfo.Text != null)
+                    page.Title = GetFormTitle(controlInfo.Text);
 
                 // перевод элементов управления
                 TranslateWebControls(page.Controls, controlInfoDict);
