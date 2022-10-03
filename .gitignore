@@ -199,3 +199,6 @@ FakesAssemblies/
 
 # Unignore the configuration database files
 !Base/data/*.sdf
+
+# Ignore all css inside ScadaWeb
+ScadaWeb/**/*.css
