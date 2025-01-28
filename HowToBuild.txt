@@ -24,3 +24,29 @@ Microsoft Visual Studio 2017 is needed. Visual Studio Community is OK.
    Switch to the Release configuration so that the references are correct.
 
 3. Enjoy the binaries built by yourself.
+
+
+Build from Command Line
+-----------------------
+1. Download and install .NET SDK 8.0 for your operating system.
+
+2. Download the source code of Rapid SCADA from the repository:
+   https://github.com/RapidScada/scada
+
+3. Change directory to the source code root.
+ 
+4. Execute the following commands:
+
+dotnet build Log\Log.sln -c Release 
+dotnet build Report\Report.sln -c Release 
+dotnet build ScadaData\ScadaData.sln -c Release    
+dotnet build ScadaAgent\ScadaAgent.sln -c Release
+dotnet build ScadaComm\ScadaComm\ScadaComm.sln -c Release  
+dotnet build ScadaComm\OpenKPs\OpenKPs.sln -c Release
+dotnet build ScadaServer\ScadaServer\ScadaServer.sln -c Release 
+dotnet build ScadaServer\OpenModules\OpenModules.sln -c Release 
+dotnet build ScadaWeb\ScadaWeb\ScadaWeb.sln -c Release 
+dotnet build ScadaWeb\OpenPlugins\OpenPlugins.sln -c Release 
+dotnet build ScadaWeb\ScadaScheme\ScadaScheme.sln -c Release 
+dotnet build ScadaWeb\ScadaTable\ScadaTable.sln -c Release 
+dotnet build ScadaAdmin\ScadaAdmin5\ScadaAdmin5.sln -c Release 
